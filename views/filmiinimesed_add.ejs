@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="et">
+
+<head>
+    <meta charset="utf-8">
+    <title>Anette Saviauk, veebiprogrammeerimine</title>
+</head>
+
+<body>
+    <img src="/images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
+    <h1>Anette Saviauk, veebiprogrammeerimine</h1>
+    <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma
+        mõistlikku sisu.</p>
+    <p>Veebiprogrammeerimine on tore.</p>
+    <hr>
+    <ul>
+        <li><a href="/">Avalehele</a></li>
+        </li><a href="/eestifilm">Eesti filmi avaleht</a></li>
+    </ul>
+    <h2>Eesti filmiga seotud inimeste lisamine</h2>
+    <form method="POST">
+        <label for="firstNameInput">Eesnimi</label>
+        <input id="firstNameInput" type="text" name="firstNameInput" placeholder="Sisesta eesnimi..." required>
+        <br>
+        <label for="lastNameInput">Perekonnanimi</label>
+        <input id="lastNameInput" type="text" name="lastNameInput" placeholder="Sisesta perekonnanimi..." required>
+        <br>
+        <label for="bornInput">Sünnikuupäev</label>
+        <input id="bornInput" name="bornInput" type="date" required>
+        <br>
+        <label for="deceasedInput">Surmakuupäev</label>
+        <input id="deceasedInput" name="deceasedInput" type="date" <br>
+        <input id="personSubmit" name="personSubmit" type="submit" value="Salvesta">
+    </form>
+    <P>
+        <%= notice %>
+    </P>
+
+</body>
+
+</html>
