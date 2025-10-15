@@ -98,7 +98,7 @@ app.get("/visitlog", (req, res) => {
         }
         else {
             let tempListData = data.split(";");
-            for (let i = 0; i < tempListData.lenght - 1; i++) {
+            for (let i = 0; i < tempListData.length - 1; i++) {
                 listData.push(tempListData[i]);
             }
             res.render("genericlist", { h2: "Registreeritud külastused", listData: listData });
@@ -108,6 +108,43 @@ app.get("/visitlog", (req, res) => {
 
 app.get("/eestifilm", (req, res) => {
     res.render("eestifilm");
+});
+
+app.get("/eestifilm/filmid", (req, res) => {
+    const sqlReq = "SELECT * FROM movie";
+    //conn.query
+    conn.execute(sqlReq, (err, sqlRes) => {
+        if (err) {
+            console.log(err);
+            res.render("filmid", { notice: "Viga!", movieList: [] });
+        }
+        else {
+            console.log(sqlRes);
+            res.render("filmid", { notice: "", movieList: sqlRes });
+        }
+    });
+});
+
+app.post("/eestifilm/filmid", (req, res) => {
+    console.log(req.body);
+    if (!req.body.titleInput || !req.body.yearInput || !req.body.durationInput) {
+        const sqlReq = "SELECT * FROM movie";
+        conn.execute(sqlReq, (err, sqlRes) => {
+            res.render("filmid", { notice: "Andmed on vigased!", movieList: sqlRes || [] });
+        });
+    }
+    else {
+        const sqlReq = "INSERT INTO movie (title, production_year, duration) VALUES(?,?,?)";
+        conn.execute(sqlReq, [req.body.titleInput, req.body.yearInput, req.body.durationInput], (err, sqlRes) => {
+            if (err) {
+                console.log(err);
+                res.render("filmid", { notice: "Tekkis viga: " + err, movieList: [] });
+            }
+            else {
+                res.redirect("/eestifilm/filmid");
+            }
+        });
+    }
 });
 
 app.get("/eestifilm/inimesed", (req, res) => {
@@ -132,7 +169,7 @@ app.get("/eestifilm/filmiinimesed_add", (req, res) => {
 
 app.post("/eestifilm/filmiinimesed_add", (req, res) => {
     console.log(req.body)
-    //kontrollime,kas andmed on ikka olemas
+    //kontrollime, kas andmed on ikka olemas
     if (!req.body.firstNameInput || !req.body.lastNameInput || !req.body.bornInput || req.body.bornInput > new Date()) {
         res.render("filmiinimesed_add", { notice: "Andmed on vigased!" });
     }
@@ -155,5 +192,41 @@ app.post("/eestifilm/filmiinimesed_add", (req, res) => {
     //res.render("filmiinimesed_add");
 });
 
-app.listen(5310);
+app.get("/eestifilm/ametid", (req, res) => {
+    const sqlReq = "SELECT * FROM position";
+    //conn.query
+    conn.execute(sqlReq, (err, sqlRes) => {
+        if (err) {
+            console.log(err);
+            res.render("ametid", { positionList: [] });
+        }
+        else {
+            console.log(sqlRes);
+            res.render("ametid", { positionList: sqlRes });
+        }
+    });
+});
 
+app.get("/eestifilm/ametid_add", (req, res) => {
+    res.render("ametid_add", { notice: "Sisesta ameti andmed!" });
+});
+
+app.post("/eestifilm/ametid_add", (req, res) => {
+    console.log(req.body);
+    if (!req.body.positionNameInput || !req.body.positionDescriptionInput) {
+        res.render("ametid_add", { notice: "Andmed on vigased!" });
+    }
+    else {
+        const sqlReq = "INSERT INTO position (position_name, description) VALUES(?,?)";
+        conn.execute(sqlReq, [req.body.positiontNameInput, req.body.positionDescriptionInput], (err, sqlRes) => {
+            if (err) {
+                console.log(err);
+                res.render("ametid_add", { notice: "Tekkis viga: " + err });
+            }
+            else {
+                res.redirect("/eestifilm/ametid");
+            }
+        });
+    }
+});
+app.listen(5310);

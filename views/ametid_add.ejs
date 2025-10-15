@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="et">
+
+<head>
+    <meta charset="utf-8">
+    <title>Anette Saviauk, veebiprogrammeerimine</title>
+</head>
+
+<body>
+    <img src="/images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
+    <h1>Anette Saviauk, veebiprogrammeerimine</h1>
+    <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma
+        mõistlikku sisu.</p>
+    <p>Veebiprogrammeerimine on tore.</p>
+    <hr>
+    <ul>
+        <li><a href="/">Avalehele</a></li>
+        </li><a href="/eestifilm">Eesti filmi avaleht</a></li>
+        </li><a href="/eestifilm/ametid">Vaata ameteid</a></li>
+    </ul>
+    <h2>Uue ameti lisamine</h2>
+    <form method="POST" action="/eestifilm/ametid_add">
+        <label for="positionNameInput">Ameti nimetus</label>
+        <input id="positionNameInput" type="text" name="positionNameInput" placeholder="Ameti nimi.." required>
+        <br>
+        <label for="positionDescriptionInput">Ameti kirjeldus</label>
+        <textarea id="positionDescriptionInput" name="positionDescriptionInput" cols="100" rows="5"
+            placeholder="Ameti lühikirjeldus..." required></textarea>
+        <br><br>
+        <input id="positionSubmit" name="positionSubmit" type="submit" value="Salvesta amet">
+    </form>
+    <P>
+        <%= notice %>
+    </P>
+    res.redirect("/eestifilm/ametid");
+</body>
+
+</html>

@@ -16,28 +16,33 @@
     <ul>
         <li><a href="/">Avalehele</a></li>
         </li><a href="/eestifilm">Eesti filmi avaleht</a></li>
-        </li><a href="/eestifilm/inimesed">Vaata filmiinimesi</a></li>
     </ul>
-    <h2>Eesti filmiga seotud inimeste lisamine</h2>
+    <h2>Eesti filmid</h2>
+    <p>Lisa uus film</p>
     <form method="POST">
-        <label for="firstNameInput">Eesnimi</label>
-        <input id="firstNameInput" type="text" name="firstNameInput" placeholder="Sisesta eesnimi..." required>
+        <label for="titleInput">Filmi nimi</label>
+        <input id="titleInput" type="text" name="titleInput" placeholder="Filmi nimi" required>
         <br>
-        <label for="lastNameInput">Perekonnanimi</label>
-        <input id="lastNameInput" type="text" name="lastNameInput" placeholder="Sisesta perekonnanimi..." required>
+        <label for="yearInput">Filmi aasta</label>
+        <input id="yearInput" type="number" name="yearInput" placeholder="Filmi aasta" required>
         <br>
-        <label for="bornInput">Sünnikuupäev</label>
-        <input id="bornInput" name="bornInput" type="date" required>
-        <br>
-        <label for="deceasedInput">Surmakuupäev</label>
-        <input id="deceasedInput" name="deceasedInput" type="date" <br>
+        <label for="durationInput">Filmi kestus</label>
+        <input id="durationInput" type="number" name="durationInput" placeholder="Filmi kestus" required>
         <br>
         <input id="personSubmit" name="personSubmit" type="submit" value="Salvesta">
     </form>
     <P>
         <%= notice %>
     </P>
-
+    <ul>
+        <% movieList.forEach(function(listItem) { %>
+            <li>
+                <%= listItem.title %> (<%= listItem.production_year %>)
+            </li>
+            <% }); %>
+    </ul>
+</body>
+</ol>
 </body>
 
 </html>
