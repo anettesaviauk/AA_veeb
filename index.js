@@ -2,7 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const bodyparser = require("body-parser");
 //lisan andmebaasiga suhtlemise paketi
-const mysql = require("mysql2");
+//const mysql = require("mysql2/promise");
 const dateET = require("./src/dateTimeET");
 //lisan andmebaasi juurdepääsu info
 const dbInfo = require("../../vp2025config");
@@ -16,13 +16,21 @@ app.use(express.static("public"));
 //asun päringut parsima. Parameetri lõpus on false, kui ainult tekst ja true, kui muud infot ka
 app.use(bodyparser.urlencoded({ extended: false }));
 
-//loome andmebaasi ühenduse
-const conn = mysql.createConnection({
+/* //loome andmebaasi ühenduse
+/* const conn = mysql.createConnection({
     host: dbInfo.configData.host,
     user: dbInfo.configData.user,
     password: dbInfo.configData.passWord,
     database: dbInfo.configData.dataBase
-});
+}); */
+
+/* const dbConf = {
+    host: dbInfo.configData.host,
+    user: dbInfo.configData.user,
+    password: dbInfo.configData.password,
+    database: dbInfo.configData.database
+
+}; */
 
 app.get("/", (req, res) => {
     //res.send("Express.js rakendus läkski käima!");
@@ -163,33 +171,61 @@ app.get("/eestifilm/inimesed", (req, res) => {
     //res.render("filmiinimesed");
 });
 
-app.get("/eestifilm/filmiinimesed_add", (req, res) => {
-    res.render("filmiinimesed_add", { notice: "Ootan sisestust!" });
+app.get("/eestifilm/filmiinimesed", async (req, res) => {
+    let.conn;
+    const sqlReq = "SELECT * FROM person";
+    let personList = [];
+    try {
+        conn = await mysql.createConnection(dbConf);
+        console.log("Andmebaasiühendus loodud");
+        const [rows, fields] = await conn.execute(sqlReq); //andmetabeli väljade loend
+        res.render("filmiinimesed", { personList: rows });
+    }
+    catch (err) {
+        console.log("Viga: " + err);
+        res.render("filmiinimesed", { personList: [] });
+    }
+    finally {
+        if (conn) {
+            await conn.end();
+            console.log("Andmebaasiühendus suletud!");
+        }
+    }
 });
 
-app.post("/eestifilm/filmiinimesed_add", (req, res) => {
-    console.log(req.body)
-    //kontrollime, kas andmed on ikka olemas
+/* app.get("/eestifilm/filmiinimesed_add", (req, res) => {
+    res.render("filmiinimesed_add", { notice: "Ootan sisestust!" });
+}); */
+
+app.post("/eestifilm/filmiinimesed_add", async (req, res) => {
+    let conn;
+    let sqlReq = "INSERT INTO person (first_name, last_name, born, deceased) VALUES (?,?,?,?)";
     if (!req.body.firstNameInput || !req.body.lastNameInput || !req.body.bornInput || req.body.bornInput > new Date()) {
         res.render("filmiinimesed_add", { notice: "Andmed on vigased!" });
+        return;
     }
-    else {
+    try {
+        conn = await mysql.createConnection(dbConf);
+        console.log("Andmebaasiühendus loodud");
         let deceasedDate = null;
         if (req.body.deceasedInput != "") {
             deceasedDate = req.body.deceasedInput;
         }
-        let sqlReq = "INSERT INTO person (first_name, last_name, born, deceased) VALUES (?,?,?,?)";
-        conn.execute(sqlReq, [req.body.firstNameInput, req.body.lastNameInput, req.body.bornInput, deceasedDate], (err, sqlRes) => {
-            if (err) {
-                console.log(err);
-                res.render("filmiinimesed_add", { notice: "Tekkis tehniline viga: " + err });
-            }
-            else {
-                res.render("filmiinimesed_add", { notice: "Andmed edukalt salvestatud!" });
-            }
-        });
+        const [RESULT] = await conn.execute(sqlReq, [req.body.firstNameInput, req.body.lastNameInput, req.body.bornInput, deceasedDate]);
+        console.log("Salvestati kirje id: " + result.insertId);
+        res.render("filmiinimesed_add", { notice: "Andmed edukalt salvestatud!" });
     }
-    //res.render("filmiinimesed_add");
+    catch (err) {
+        console.log("Viga: " + err);
+        res.render("filmiinimesed_add", { notice: "Tekkis tehniline viga!" });
+    }
+    finally {
+        if (conn) {
+            await conn.end();
+            console.log("Andmebaasiühendus suletud!");
+        }
+    }
+
 });
 
 app.get("/eestifilm/ametid", (req, res) => {
@@ -229,4 +265,8 @@ app.post("/eestifilm/ametid_add", (req, res) => {
         });
     }
 });
+
+//Eesti film marsruudid
+const eestifilmRouter = require("./routes/eestifilRoutes");
+app.use("/eestifilm", eestifilmRouter);
 app.listen(5310);
