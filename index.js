@@ -16,13 +16,14 @@ app.use(express.static("public"));
 //asun päringut parsima. Parameetri lõpus on false, kui ainult tekst ja true, kui muud infot ka
 app.use(bodyparser.urlencoded({ extended: false }));
 
-/* //loome andmebaasi ühenduse
-/* const conn = mysql.createConnection({
+//loome andmebaasi ühenduse
+const mysql = require("mysql2");
+const conn = mysql.createConnection({
     host: dbInfo.configData.host,
     user: dbInfo.configData.user,
-    password: dbInfo.configData.passWord,
-    database: dbInfo.configData.dataBase
-}); */
+    password: dbInfo.configData.password,
+    database: dbInfo.configData.dataase
+});
 
 /* const dbConf = {
     host: dbInfo.configData.host,
@@ -172,7 +173,7 @@ app.get("/eestifilm/inimesed", (req, res) => {
 });
 
 app.get("/eestifilm/filmiinimesed", async (req, res) => {
-    let.conn;
+    let conn;
     const sqlReq = "SELECT * FROM person";
     let personList = [];
     try {
@@ -267,6 +268,6 @@ app.post("/eestifilm/ametid_add", (req, res) => {
 });
 
 //Eesti film marsruudid
-const eestifilmRouter = require("./routes/eestifilRoutes");
+const eestifilmRouter = require("./routes/eestifilmRoutes");
 app.use("/eestifilm", eestifilmRouter);
 app.listen(5310);

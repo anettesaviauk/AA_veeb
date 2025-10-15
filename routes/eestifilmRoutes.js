@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    filmHopePage,
+    filmHomePage,
     filmPeople,
     filmPeopleAdd,
     filmPeopleAddPost,
     filmPosition,
     filmPositionAdd,
     filmPositionAddPost
-} = require("../controllers/eestifilmControllerss");
+} = require("../controllers/eestifilmControllers");
 
 router.route("/").get(filmHomePage);     ///ainult kaldkriips, sest kõik on eestifilm ehk /inimesed, /ametid jne
 router.route("/filmiinimesed").get(filmPeople);

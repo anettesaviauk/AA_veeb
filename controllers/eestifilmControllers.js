@@ -142,7 +142,7 @@ const filmPositionAddPost = (req, res) => {
 
 
 module.exports = {
-    filmHopePage,
+    filmHomePage,
     filmPeople,
     filmPeopleAdd,
     filmPeopleAddPost,
