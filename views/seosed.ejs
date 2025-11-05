@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="et">
+
+<head>
+    <meta charset="utf-8">
+    <title>Anette Saviauk, veebiprogrammeerimine</title>
+</head>
+
+<body>
+    <img src="images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
+    <h1>Anette Saviauk, veebiprogrammeerimine</h1>
+    <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma
+        mõistlikku sisu.</p>
+    <p>Veebiprogrammeerimine on tore.</p>
+    <h2>Isikute ja filmide seosed</h2>
+
+    <table border="1">
+        <tr>
+            <th>Isik</th>
+            <th>Film</th>
+            <th>Amet</th>
+            <th>Roll</th>
+        </tr>
+        <% seosedList.forEach(a=> { %>
+            <tr>
+                <td>
+                    <%= a.first_name %>
+                        <%= a.last_name %>
+                </td>
+                <td>
+                    <%= a.title %>
+                </td>
+                <td>
+                    <%= a.position_name %>
+                </td>
+                <td>
+                    <%= a.role || '-' %>
+                </td>
+            </tr>
+            <% }); %>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+<h2>Lisa uus film</h2>
+<p>
+    <%= notice %>
+</p>
+<form action="/eestifilm/filmid_add" method="POST">
+    <label>Pealkiri: <input type="text" name="titleInput" required></label><br>
+    <label>Aasta: <input type="number" name="yearInput" required></label><br>
+    <label>Kestus (min): <input type="number" name="durationInput" required></label><br>
+    <button type="submit">Lisa film</button>
+</form>
+<a href="/eestifilm/filmid">Tagasi filmide nimekirja</a>

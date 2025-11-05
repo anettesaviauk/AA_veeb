@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="et">
+
+<head>
+    <meta charset="utf-8">
+    <title>Anette Saviauk, veebiprogrammeerimine</title>
+</head>
+
+<body>
+    <img src="images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
+    <h1>Anette Saviauk, veebiprogrammeerimine</h1>
+    <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma
+        mõistlikku sisu.</p>
+    <p>Veebiprogrammeerimine on tore.</p>
+    <h2>Lisage seos isiku, filmi ja ameti vahel</h2>
+
+    <form method="POST" action="/eestifilm/seosed_add">
+        //Siit saab isiku valida
+        <label for="personSelect">Vali isik:</label>
+        <select id="personSelect" name="personSelect" required>
+            <option selected disabled>Vali isik</option>
+            <% persons.forEach(person=> { %>
+                <option value="<%= person.id %>">
+                    <%= person.first_name %>
+                        <%= person.last_name %>
+                </option>
+                <% }); %>
+        </select>
+        <br><br>
+
+        <label for="movieSelect">Vali film:</label>
+        <select id="movieSelect" name="movieSelect" required>
+            <option selected disabled>Vali film</option>
+            <% movies.forEach(movie=> { %>
+                <option value="<%= movie.id %>">
+                    <%= movie.title %>
+                </option>
+                <% }); %>
+        </select>
+        <br><br>
+
+        <label for="positionSelect">Vali amet:</label>
+        <select id="positionSelect" name="positionSelect" required>
+            <option selected disabled>Vali amet</option>
+            <% positions.forEach(pos=> { %>
+                <option value="<%= pos.id %>">
+                    <%= pos.position_name %>
+                </option>
+                <% }); %>
+        </select>
+        <br><br>
+
+        <label for="roleInput">Roll (vajadusel):</label>
+        <input type="text" id="roleInput" name="roleInput" placeholder="Näiteks 'Peategelane'">
+        <br><br>
+
+        <input type="submit" value="Salvesta seos">
+    </form>
+
+    <% if (notice) { %>
+        <p><strong>
+                <%= notice %>
+            </strong></p>
+        <% } %>
+
+</body>
+
+</html>

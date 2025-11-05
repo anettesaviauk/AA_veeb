@@ -8,7 +8,7 @@
 
 <body>
     <img src="/images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
-    <h1>Anette Saviauk, veebiprogrammeerimine</h1>
+    <h1>Veebileht</h1>
     <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma
         mõistlikku sisu.</p>
     <p>Veebiprogrammeerimine on tore.</p>
@@ -16,16 +16,26 @@
     <ul>
         <li><a href="/">Avalehele</a></li>
         </li><a href="/eestifilm">Eesti filmi avaleht</a></li>
-        <li><a href="/eestifilm/ametid_add">Filmiga seotud ameti lisamine</a></li>
+        <!-- <li><a href="/eestifilm/ametid_add">Filmiga seotud ameti lisamine</a></li> -->
     </ul>
     <h2>Filmidega seotud inimesed</h2>
-    <ul>
-        <% positionList.forEach(function(listItem) { %>
-            <li>
-                <%= listItem.position_name %>, KIRJELDUS: <%= listItem.description %>
-            </li>
-            <% });%>
-    </ul>
+    <p>Lisa uus amet</p>
+    <form action="/eestifilm/ametid" method="POST" <label for="positionInput">Ameti nimi</label>
+        <input id="positionInput" name="positionInput" type="text" placeholder="Ameti nimetud" required>
+        <br>
+        <label for="descriptionInput">Ameti kirjeldus</label>
+        <texterea id="descriptionInput" name="descriptionInput" cols="100" rows="5" placeholder="Ameti lühikirjeldus: ">
+        </texterea>
+        <br>
+        <input id="positionSubmit" name="positionSubmit" type="submit" value="Salvesta">
+        <hr>
+        <ul>
+            <% positionList.forEach(function(listItem) { %>
+                <li>
+                    <%= listItem.position_name %>, KIRJELDUS: <%= listItem.description %>
+                </li>
+                <% });%>
+        </ul>
 </body>
 
 </html>

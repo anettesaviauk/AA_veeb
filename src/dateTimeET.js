@@ -19,4 +19,12 @@ const tellTimeET = function () {
     return hourNow + ":" + minuteNow + ":" + secondNow;
 }
 
+const formatDateFromDb = function (dateFromDb) {
+    if (!dateFromDb) return ""; // kui väärtus on null või undefined
+    const d = new Date(dateFromDb);
+    const monthNamesET = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
+    return d.getDate() + "." + monthNamesET[d.getMonth()] + " " + d.getFullYear();
+}
+
+
 module.exports = { longDate: tellDateET, weekDay: tellDayET, time: tellTimeET };
