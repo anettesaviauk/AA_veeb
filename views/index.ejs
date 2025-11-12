@@ -21,7 +21,16 @@
         <li><a href="/visitlog">Vaata külastajaid</a></li>
         <li><a href="/eestifilm">Eesti film</a></li>
         <li><a href="/galleryphotoupload">Galeriipiltide üleslaadimine</a></li>
+        <!-- <li><a href="/gallery">Galerii</a></li> -->
     </ul>
+    <hr>
+    <h2>Viimane avalik foto</h2>
+
+    <% if (lastphoto) { %>
+        <img src="gallery/orig/<%= lastphoto.filename %>" alt="<%= lastphoto.alttext %>" style="max-width: 400px;">
+        <% } else { %>
+            <p>Ühtegi avalikku fotot pole veel lisatud.</p>
+            <% } %>
 </body>
 
 </html>

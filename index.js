@@ -25,19 +25,39 @@ app.use(bodyparser.urlencoded({ extended: false }));
 //database: dbInfo.configData.database
 //});
 
-/* const dbConf = {
+const dbConf = {
     host: dbInfo.configData.host,
     user: dbInfo.configData.user,
     password: dbInfo.configData.password,
     database: dbInfo.configData.database
 
-}; */
+};
 
 //Avaleht
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     //res.send("Express.js rakendus läkski käima!");
-    res.render("index");
+    let conn;
+    let photo = null;
+    try {
+        conn = await mysql.createConnection(dbConf);
+        const sqlReq = "SELECT filename, alttext FROM galleryphotos WHERE id = (SELECT MAX(id) FROM galleryphotos WHERE privacy= ? AND deleted IS NULL)";
+        const privacy = 3;
+        const [photo] = await conn.execute(sqlReq, [privacy]);
+        lastphoto = photo[0];
+
+    }
+    catch (err) {
+        console.log(err);
+    }
+    finally {
+        if (conn) {
+            await conn.end();
+            console.log("Andmebaasiühendus on suletud!");
+        }
+    }
+    res.render("index", { lastphoto: lastphoto });
 });
+
 
 //Kuupäeva ja aja näitamine
 app.get("/timenow", (req, res) => {
@@ -142,10 +162,18 @@ app.get("/visits/log", (req, res) => {
 
 
 
+
+//Eesti filmi marsruudid
 const eestifilmRouter = require("./routes/eestifilmRoutes");
 app.use("/eestifilm", eestifilmRouter);
 
+//Galeriipiltide üleslaadimine
 const galleryphotouploadRouter = require("./routes/galleryphotouploadRoutes");
 app.use("/galleryphotoupload", galleryphotouploadRouter);
+
+//Galerii ruuter
+const galleryRouter = require("./routes/galleryRoutes");
+app.use("/gallery", galleryRouter);
+
 
 app.listen(5310);
