@@ -9,34 +9,33 @@ const dbConf = {
 
 
 };
-//@desc Home page for displaying uploaded photos
-//@route GET /galleryPage
+//@desc Home page for photogallery
+//@route GET /photogallery
 //@access public 
 
 
-const galleryPage = async (req, res) => {
+const newsViewPage = async (req, res) => {
     let conn;
-    let galleryData = [];
 
     try {
         conn = await mysql.createConnection(dbConf);
-        const sqlReq = "SELECT filename, alttext FROM galleryphotos WHERE privacy=? AND deleted IS NULL";
-        const privacy = 3;
-        const [rows, fields] = await conn.execute(sqlReq, [privacy]);
+        const sqlReq = "SELECT * FROM news WHERE expire > ? ORDER BY added DESC";
+        const [rows] = await conn.execute(sqlReq, [new Date()]);
         console.log(rows);
-        let galleryData = [];
+        /* let galleryData = [];
         for (let i = 0; i < rows.length; i++) {
             let altText = "Galeriipilt";
             if (rows[i].alttext != "") {
                 altText = rows[i].alttext;
             }
-            galleryData.push({ href: rows[i].filename, alt: altText });
-        }
-        res.render("gallery", { galleryData: galleryData, imagehref: "/gallery/orig/" });
+            galleryData.push({ src: rows[i].filename, alt: altText });
+        } */
+        res.render("newsview", { news: rows });
     }
     catch (err) {
         console.log(err);
-        res.render("gallery", { galleryData: [], imagehref: "/gallery/orig/" });
+        res.send("Viga uudiste kuvamisel!");
+
     }
     finally {
         if (conn) {
@@ -47,5 +46,5 @@ const galleryPage = async (req, res) => {
 };
 
 module.exports = {
-    galleryPage
-}
+    newsViewPage
+};

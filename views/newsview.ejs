@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="et">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uudised</title>
+</head>
+
+<body>
+    <h1>Uudised</h1>
+    <ul>
+        <% if (news.length===0) { %>
+            <li>Hetkel uudiseid pole.</li>
+            <% } else { %>
+                <% news.forEach(function(item) { %>
+                    <li>
+                        <h2>
+                            <%= item.title %>
+                        </h2>
+                        <p>
+                            <%= item.content %>
+                        </p>
+                        <% if (item.photofilename) { %>
+                            <img src="/news/orig/<%= item.photofilename %>" alt="<%= item.alttext %>" width="300">
+                            <% } %>
+                                <hr>
+                    </li>
+                    <% }); %>
+                        <% } %>
+    </ul>
+    <a href="/">Avalehele</a>
+</body>
+
+</html>

@@ -21,16 +21,41 @@
         <li><a href="/visitlog">Vaata külastajaid</a></li>
         <li><a href="/eestifilm">Eesti film</a></li>
         <li><a href="/galleryphotoupload">Galeriipiltide üleslaadimine</a></li>
-        <!-- <li><a href="/gallery">Galerii</a></li> -->
+        <li><a href="/photogallery">Fotogalerii</a></li>
+        <li><a href="/newsadd">Uudiste lisamine</a></li>
+        <li><a href="/newsview">Uudiste vaatamine</a></li>
+
     </ul>
     <hr>
     <h2>Viimane avalik foto</h2>
 
     <% if (lastphoto) { %>
-        <img src="gallery/orig/<%= lastphoto.filename %>" alt="<%= lastphoto.alttext %>" style="max-width: 400px;">
+        <img src="/gallery/normal/<%= lastphoto.filename %>" alt="<%= lastphoto.alttext %>" style="max-width: 400px;">
         <% } else { %>
             <p>Ühtegi avalikku fotot pole veel lisatud.</p>
             <% } %>
+
+
+                <hr>
+                <h2>Värskeim uudis</h2>
+
+                <% if (latestNews) { %>
+                    <h3>
+                        <%= latestNews.title %>
+                    </h3>
+                    <p>
+                        <%= latestNews.content %>
+                    </p>
+
+                    <% if (latestNews.photofilename) { %>
+                        <img src="/news/orig/<%= latestNews.photofilename %>" alt="<%= latestNews.alttext %>"
+                            width="400">
+                        <% } %>
+
+                            <% } else { %>
+                                <p>Hetkel ükski uudis ei ole saadaval.</p>
+                                <% } %>
+
 </body>
 
 </html>

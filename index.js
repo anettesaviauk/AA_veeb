@@ -171,9 +171,16 @@ app.use("/eestifilm", eestifilmRouter);
 const galleryphotouploadRouter = require("./routes/galleryphotouploadRoutes");
 app.use("/galleryphotoupload", galleryphotouploadRouter);
 
-//Galerii ruuter
-const galleryRouter = require("./routes/galleryRoutes");
-app.use("/gallery", galleryRouter);
+//Fotogalerii marsruudid
+const photogalleryRouter = require("./routes/photogalleryRoutes");
+app.use("/photogallery", photogalleryRouter);
 
+//Uudiste lisamine
+const newsAddRouter = require("./routes/newsAddRoutes");
+app.use("/newsadd", newsaddRouter);
+
+//Uudiste vaatamine
+const newsViewRouter = require("./routes/newsViewRoutes");
+app.use("/newsview", newsviewRouter);
 
 app.listen(5310);

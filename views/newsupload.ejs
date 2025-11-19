@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="et">
+
+<head>
+    <meta charset="utf-8">
+    <title>Anette Saviauk, veebiprogrammeerimine</title>
+</head>
+
+<body>
+    <img src="images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
+    <h1>Anette Saviauk, veebiprogrammeerimine</h1>
+    <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma
+        mõistlikku sisu.</p>
+    <p>Veebiprogrammeerimine on tore.</p>
+    <hr>
+    <ul>
+        <li><a href="/">Avalehele</a></li>
+    </ul>
+    <h2>Lae andmebaasi uudis</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="titleInput">Uudise pealkiri</label>
+        <input id="titleInput" name="titleInput" type="text" placeholder="Uudise pealkiri..." required>
+        <br>
+        <label for="newsContentInput">Uudise sisu</label>
+        <br>
+        <textarea id="newsContentInput" name="newsContentInput" rows="6" cols="150" placeholder="Uudise sisu..."
+            required></textarea>
+        <br>
+        <label for="photoInput">Uudise pildi üleslaadimine</label>
+        <input id="photoInput" name="photoInput" type="file">
+        <br>
+        <label for="altInput">Pildi alternatiivtekst</label>
+        <input id="altInput" name="altInput" type="text" placeholder="Fotol on ...">
+        <br>
+        <!-- <label for="expireInput">Pildi alternatiivtekst</label>
+		<input for="altInput" name="altInput" type="text" placeholder="Fotol on ...">
+		<br> -->
+        <input id="newsSubmit" name="newsSubmit" type="submit" value="Lae üles">
+    </form>
+    <p>
+        <%= notice %>
+    </p>
+</body>
+
+</html>
