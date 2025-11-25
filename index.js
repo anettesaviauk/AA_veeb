@@ -38,12 +38,24 @@ app.get("/", async (req, res) => {
     //res.send("Express.js rakendus läkski käima!");
     let conn;
     let photo = null;
+    let latestNews = null;
     try {
         conn = await mysql.createConnection(dbConf);
+
+        //Kuvame värskeima uudise
+        const sqlNews = "SELECT * FROM news WHERE expire > ? ORDER BY added DESC LIMIT 1";
+        const [rows] = await conn.execute(sqlNews, [new Date()]);
+
+        if (rows.length > 0) {
+            latestNews = rows[0];
+        }
+
+        //Kuvame viimase pildi
         const sqlReq = "SELECT filename, alttext FROM galleryphotos WHERE id = (SELECT MAX(id) FROM galleryphotos WHERE privacy= ? AND deleted IS NULL)";
         const privacy = 3;
         const [photo] = await conn.execute(sqlReq, [privacy]);
         lastphoto = photo[0];
+
 
     }
     catch (err) {
@@ -55,7 +67,7 @@ app.get("/", async (req, res) => {
             console.log("Andmebaasiühendus on suletud!");
         }
     }
-    res.render("index", { lastphoto: lastphoto });
+    res.render("index", { lastphoto: lastphoto, latestNews: latestNews });
 });
 
 
@@ -176,11 +188,11 @@ const photogalleryRouter = require("./routes/photogalleryRoutes");
 app.use("/photogallery", photogalleryRouter);
 
 //Uudiste lisamine
-const newsAddRouter = require("./routes/newsAddRoutes");
+const newsaddRouter = require("./routes/newsaddRoutes");
 app.use("/newsadd", newsaddRouter);
 
 //Uudiste vaatamine
-const newsViewRouter = require("./routes/newsViewRoutes");
+const newsviewRouter = require("./routes/newsviewRoutes");
 app.use("/newsview", newsviewRouter);
 
 app.listen(5310);
